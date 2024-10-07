@@ -45,6 +45,19 @@ pip install git+https://github.com/StephanAkkerman/template.git
 
 ## Citation ✍️
 
+If you use this project in your research, please cite as follows:
+
+```bibtex
+@misc{project_name,
+  author  = {Stephan Akkerman},
+  title   = {Project Name},
+  year    = {2024},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/StephanAkkerman/template}}
+}
+```
+
 ## Contributing 🛠
 
 Contributions are welcome! If you have a feature request, bug report, or proposal for code refactoring, please feel free to open an issue on GitHub. We appreciate your help in improving this project.\
