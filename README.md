@@ -1,9 +1,9 @@
 # Template
 
-<Banner Placeholder>
+<!-- Add a banner here like: https://github.com/StephanAkkerman/fintwit-bot/blob/main/img/logo/fintwit-banner.png -->
 
 ---
-
+<!-- Adjust the link of the second badge to your own repo -->
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.10-blue.svg" alt="Supported versions">
   <img src="https://img.shields.io/github/license/StephanAkkerman/template.svg?color=brightgreen" alt="License">
@@ -28,6 +28,7 @@ In this section you can provide a brief introduction to the project. You can als
 This section is optional. If your project has a lot of features, consider adding a list of key features here.
 
 ## Installation ⚙️
+<!-- Adjust the link of the second command to your own repo -->
 
 The required packages to run this code can be found in the requirements.txt file. To run this file, execute the following code block after cloning the repository:
 
@@ -44,7 +45,7 @@ pip install git+https://github.com/StephanAkkerman/template.git
 ## Usage ⌨️
 
 ## Citation ✍️
-
+<!-- Be sure to adjust everything here so it matches your name and repo -->
 If you use this project in your research, please cite as follows:
 
 ```bibtex
@@ -59,7 +60,7 @@ If you use this project in your research, please cite as follows:
 ```
 
 ## Contributing 🛠
-
+<!-- Be sure to adjust the repo name here for both the URL and GitHub link -->
 Contributions are welcome! If you have a feature request, bug report, or proposal for code refactoring, please feel free to open an issue on GitHub. We appreciate your help in improving this project.\
 ![https://github.com/StephanAkkerman/template/graphs/contributors](https://contributors-img.firebaseapp.com/image?repo=StephanAkkerman/template)
 
