@@ -1,5 +1,8 @@
 name: Copy GitHub Labels And Delete Old
 
+permissions:
+  issues: write
+
 on:
   workflow_dispatch:
 
