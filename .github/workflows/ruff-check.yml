@@ -1,6 +1,11 @@
 name: Run Ruff formatter
 
-on: push
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+      - 'requirements.txt'
+      - 'pyproject.toml'
 
 jobs:
   lint:
@@ -8,6 +13,3 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/ruff-action@v3
-        with:
-            args: check
-            src: "./src"
