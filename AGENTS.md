@@ -7,6 +7,11 @@ start a project from this template, and keep the file short.
 
 <!-- One paragraph: the problem it solves and who uses it. -->
 
+## Template initialisation
+
+This file and `scripts/init_from_template.py` ship with the template; the init workflow
+rewrites placeholders and deletes the script. Remove this section once initialised.
+
 ## Layout
 
 - `src/project_name/` — package code (src layout)

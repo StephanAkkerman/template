@@ -14,6 +14,12 @@
 
 In this section you can provide a brief introduction to the project. You can also include a brief description of the project and its features.
 
+> **Using this template:** click *Use this template* on GitHub. The first push runs the
+> `Initialize from template` workflow, which renames `project-name`/`project_name` after
+> your repository, fixes the badges and URLs, refreshes `uv.lock`, verifies the result and
+> commits it. Delete this note afterwards. To do it by hand:
+> `python scripts/init_from_template.py --owner <you> --repo <name>`.
+
 ## Table of Contents 🗂
 
 - [Key Features](#key-features)
