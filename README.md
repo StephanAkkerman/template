@@ -33,19 +33,20 @@ This section is optional. If your project has a lot of features, consider adding
 Requires Python 3.10 or newer.
 
 ```bash
-pip install git+https://github.com/StephanAkkerman/template.git
+uv tool install git+https://github.com/StephanAkkerman/template.git
+# or: pip install git+https://github.com/StephanAkkerman/template.git
 ```
 
-For development:
+For development you need [uv](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```bash
 git clone https://github.com/StephanAkkerman/template.git
 cd template
-make install   # installs the dev extras and the pre-commit hooks
-make check     # lint, format check, type check and tests: the same gates as CI
+make install   # uv sync (creates .venv from uv.lock) + pre-commit hooks
+make check     # ruff, ty and pytest: the same gates as CI
 ```
 
-Dependencies are declared in `pyproject.toml` (there is no `requirements.txt`).
+Dependencies are declared in `pyproject.toml` and pinned in `uv.lock` (there is no `requirements.txt`). Add one with `uv add <package>`.
 
 ## Usage ⌨️
 

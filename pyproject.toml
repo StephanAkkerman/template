@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=77", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.9,<0.14"]
+build-backend = "uv_build"
 
 [project]
 name = "project-name"
@@ -11,20 +11,21 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Stephan Akkerman" }]
 requires-python = ">=3.10"
-# Runtime dependencies. pyproject.toml is the single source of truth: there is
-# no requirements.txt to keep in sync. Pin exactly (==) for applications and
-# loosely (>=) for libraries.
+# Runtime dependencies. pyproject.toml + uv.lock are the single source of truth:
+# there is no requirements.txt to keep in sync. `uv add <pkg>` edits this list and
+# the lockfile together. Use loose bounds (>=) for libraries; applications are
+# pinned by uv.lock anyway.
 dependencies = []
 
-[project.optional-dependencies]
-# pip install -e ".[dev]"  -> everything needed for `make check`
+[dependency-groups]
+# Installed by `uv sync` (the `dev` group is on by default). Not published.
 dev = [
-    "mypy>=1.13",
     "pre-commit>=4",
     "pytest>=8",
     "pytest-asyncio>=0.24",
     "pytest-cov>=6",
     "ruff>=0.8",
+    "ty>=0.0.88",
 ]
 
 [project.scripts]
@@ -33,9 +34,6 @@ project-name = "project_name.main:main"
 [project.urls]
 Homepage = "https://github.com/StephanAkkerman/template"
 Issues = "https://github.com/StephanAkkerman/template/issues"
-
-[tool.setuptools.packages.find]
-where = ["src"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -83,8 +81,14 @@ convention = "numpy"
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["D"]
 
-[tool.mypy]
-python_version = "3.10"
-files = ["src"]
-strict = true
-warn_unused_ignores = true
+[tool.ty.environment]
+python-version = "3.10"
+root = ["src"]
+
+[tool.ty.src]
+include = ["src", "tests"]
+
+[tool.ty.rules]
+# ty is pre-1.0. Start strict-ish on real bugs; relax a rule here rather than
+# sprinkling `# type: ignore` if a release introduces noise.
+possibly-unresolved-reference = "error"

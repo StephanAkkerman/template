@@ -2,10 +2,10 @@
 
 ## Code Formatting and Linting
 
-This project uses [ruff](https://docs.astral.sh/ruff/) for linting, import sorting and formatting (Black-compatible), [mypy](https://mypy.readthedocs.io/) for types, and [NumPy-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html). CI checks all of it, so you should not have to think about it:
+This project uses [ruff](https://docs.astral.sh/ruff/) for linting, import sorting and formatting (Black-compatible), [ty](https://docs.astral.sh/ty/) for types, and [NumPy-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html). CI checks all of it, so you should not have to think about it:
 
 ```bash
-make install   # dev dependencies + pre-commit hooks (formats on every commit)
+make install   # uv sync + pre-commit hooks (formats on every commit)
 make check     # exactly what CI runs
 make format    # apply ruff fixes and formatting
 ```

@@ -11,13 +11,13 @@ start a project from this template, and keep the file short.
 
 - `src/project_name/` — package code (src layout)
 - `tests/` — pytest tests, mirroring the package structure
-- `pyproject.toml` — dependencies, tool config (ruff, pytest, mypy, coverage)
+- `pyproject.toml` — dependencies, tool config (ruff, pytest, ty, coverage); `uv.lock` pins everything
 
 ## Development
 
 ```bash
-make install   # venv deps + pre-commit hooks
-make check     # ruff check, ruff format --check, mypy, pytest + coverage (= CI)
+make install   # uv sync (.venv from uv.lock) + pre-commit hooks
+make check     # ruff check, ruff format --check, ty, pytest + coverage (= CI)
 make format    # apply ruff fixes and formatting
 ```
 
@@ -27,7 +27,11 @@ anything, say so instead of working around it.
 ## Conventions
 
 - Python >= 3.10, ruff (line length 88, isort rules included), NumPy-style docstrings.
-- Dependencies live in `pyproject.toml` only; there is no `requirements.txt`.
+- Use uv for everything: `uv add <pkg>` / `uv add --dev <pkg>` to add dependencies,
+  `uv run <cmd>` to run tools, `uv lock --upgrade` to update. Commit `uv.lock`.
+  There is no `requirements.txt` and no `pip install`.
+- Type checking uses ty (pre-1.0): if it reports a false positive, tune the rule in
+  `[tool.ty.rules]` or add a targeted `# ty: ignore[rule]` with a reason.
 - Configuration comes from environment variables; document each one in the README
   and add it to `.env.example` if a typical install needs it.
 - Add or update a test with every behaviour change.

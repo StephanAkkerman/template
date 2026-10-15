@@ -1,35 +1,44 @@
 # One definition of "done": `make check` runs the same gates CI runs.
-.PHONY: help install check lint format test typecheck clean
+# Everything goes through uv, which creates .venv and keeps it in sync with uv.lock.
+.PHONY: help install check lint format test typecheck lock upgrade clean
 
 help:
-	@echo "make install    create/refresh the dev environment and git hooks"
+	@echo "make install    sync .venv from uv.lock and install git hooks"
 	@echo "make check      lint, format check, type check and tests (what CI runs)"
-	@echo "make lint       ruff check"
+	@echo "make lint       ruff check + ruff format --check"
 	@echo "make format     apply ruff fixes and formatting"
 	@echo "make test       pytest with coverage"
-	@echo "make typecheck  mypy"
+	@echo "make typecheck  ty"
+	@echo "make lock       refresh uv.lock after editing pyproject.toml"
+	@echo "make upgrade    upgrade every dependency to the latest allowed version"
 	@echo "make clean      remove caches and build output"
 
 install:
-	python -m pip install --upgrade pip
-	python -m pip install -e ".[dev]"
-	pre-commit install
+	uv sync
+	uv run pre-commit install
 
 check: lint typecheck test
 
 lint:
-	ruff check .
-	ruff format --check .
+	uv run ruff check .
+	uv run ruff format --check .
 
 format:
-	ruff check --fix .
-	ruff format .
+	uv run ruff check --fix .
+	uv run ruff format .
 
 typecheck:
-	mypy
+	uv run ty check
 
 test:
-	python -m pytest --cov --cov-report=term-missing
+	uv run pytest --cov --cov-report=term-missing
+
+lock:
+	uv lock
+
+upgrade:
+	uv lock --upgrade
+	uv sync
 
 clean:
-	rm -rf build dist .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov *.egg-info src/*.egg-info
+	rm -rf build dist .pytest_cache .ruff_cache .coverage htmlcov coverage.xml *.egg-info src/*.egg-info

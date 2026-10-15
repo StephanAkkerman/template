@@ -12,6 +12,7 @@ on:
       - Dockerfile
       - .dockerignore
       - pyproject.toml
+      - uv.lock
       - src/**
       - .github/workflows/docker.yml
 
