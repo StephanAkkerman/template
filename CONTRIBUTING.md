@@ -2,30 +2,15 @@
 
 ## Code Formatting and Linting
 
-This project uses [Black](https://black.readthedocs.io/en/stable/index.html) with default values for automatic code formatting, along with [ruff](https://docs.astral.sh/ruff/). We also use [NumPy-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html) for documenting the code. As part of the checks on pull requests, it is checked whether the code still adheres to the code style. To ensure you don't need to worry about formatting and linting when contributing, it is recommended to set up the following:
+This project uses [ruff](https://docs.astral.sh/ruff/) for linting, import sorting and formatting (Black-compatible), [ty](https://docs.astral.sh/ty/) for types, and [NumPy-style docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html). CI checks all of it, so you should not have to think about it:
 
-- Integration in VS Code:
-  - For [Black](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
-  - For [ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
-  - For automated [NumPy-style docstrings](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring)
-    - You need to change the `docstringFormat` setting to NumPy (see below)
-
-### VS Code Settings
-
-To enable organzing the import on save we need to change the settings.
-You can find this by pressing `F1` or `Ctrl+Shift+P` in VS code and typing `Preferences: Open User Settings (JSON)`.
-Paste the contents of the following JSON document in there.
-
-```json
-{
-  "autoDocstring.docstringFormat": "numpy",
-  "[python]": {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "always"
-    }
-  }
-}
+```bash
+make install   # uv sync + pre-commit hooks (formats on every commit)
+make check     # exactly what CI runs
+make format    # apply ruff fixes and formatting
 ```
+
+- Integration in VS Code: [ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff) and [autoDocstring](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring) (set `autoDocstring.docstringFormat` to `numpy`).
 
 ## Submitting Pull Requests
 

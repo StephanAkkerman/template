@@ -1,14 +1,94 @@
-[tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-line_length = 88
-profile = "black"
+[build-system]
+requires = ["uv_build>=0.9,<0.14"]
+build-backend = "uv_build"
+
+[project]
+name = "project-name"
+version = "0.1.0"
+description = "One line description of the project."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Stephan Akkerman" }]
+requires-python = ">=3.10"
+# Runtime dependencies. pyproject.toml + uv.lock are the single source of truth:
+# there is no requirements.txt to keep in sync. `uv add <pkg>` edits this list and
+# the lockfile together. Use loose bounds (>=) for libraries; applications are
+# pinned by uv.lock anyway.
+dependencies = []
+
+[dependency-groups]
+# Installed by `uv sync` (the `dev` group is on by default). Not published.
+dev = [
+    "pre-commit>=4",
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6",
+    "ruff>=0.8",
+    "ty>=0.0.88",
+]
+
+[project.scripts]
+project-name = "project_name.main:main"
+
+[project.urls]
+Homepage = "https://github.com/StephanAkkerman/template"
+Issues = "https://github.com/StephanAkkerman/template/issues"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "--strict-markers"
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+# Raise this as the project grows; `make check` and CI enforce it.
+fail_under = 80
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]
 
 [tool.ruff]
 line-length = 88
-#select = ["I001"]
+src = ["src", "tests"]
+# 0.16 added Markdown to the default discovery set; keep ruff on Python only.
+include = ["*.py", "*.pyi", "**/pyproject.toml"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (replaces the standalone isort config)
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific
+    "D",   # pydocstyle
+]
+ignore = [
+    "D1", # missing docstrings: encouraged in review, not enforced
+]
 
 [tool.ruff.lint.pydocstyle]
-# Use Google-style docstrings.
 convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D"]
+
+[tool.ty.environment]
+python-version = "3.10"
+root = ["src"]
+
+[tool.ty.src]
+include = ["src", "tests"]
+
+[tool.ty.rules]
+# ty is pre-1.0. Start strict-ish on real bugs; relax a rule here rather than
+# sprinkling `# type: ignore` if a release introduces noise.
+possibly-unresolved-reference = "error"

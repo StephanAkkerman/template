@@ -1,0 +1,51 @@
+# Runs once in a repository created from the template: renames the placeholder
+# package after the repository, fixes URLs and badges, refreshes uv.lock and
+# commits the result. Never runs in the template itself.
+#
+# It disables itself: the `paths` filter only matches while src/project_name/
+# exists, and the rename removes it. (GITHUB_TOKEN may not modify files under
+# .github/workflows, so the workflow cannot delete itself. Delete this file
+# whenever you like.) If it did not trigger, run it from the Actions tab.
+name: Initialize from template
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/project_name/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  init:
+    if: github.repository != 'StephanAkkerman/template'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Rename placeholders
+        run: >-
+          python3 scripts/init_from_template.py
+          --owner "${{ github.repository_owner }}"
+          --repo "${{ github.event.repository.name }}"
+
+      - name: Refresh lockfile and verify
+        run: |
+          uv lock
+          uv sync --locked
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run ty check
+          uv run pytest -q
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Initialize project from template"
+          git push
