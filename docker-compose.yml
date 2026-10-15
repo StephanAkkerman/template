@@ -1,0 +1,14 @@
+# Docker's default json-file driver keeps logs forever; cap them.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  app:
+    build: .
+    # image: ghcr.io/stephanakkerman/template:latest
+    restart: unless-stopped
+    env_file: [.env]
+    logging: *default-logging
